@@ -4,14 +4,14 @@ This tool runs on node.js execution environment. If node.js hasn't been
 installed on your Windows, download [node.js](https://nodejs.org/en/download/current/)
 and install it.
 
-Open cmd windows, type `node --version` to make sure node.js has been
+Open cmd window, type `node --version` to make sure node.js has been
 installed properly.
 
-Download the package and extra it into an empty folder, e.g. `C:\tmp\csvsplit`.
+Download `csvsplit.zip` from [latest release](https://github.com/aleung/csvsplit/releases/latest) and extra it.
 
 ## Usage
 
-Open cmd windows, cd into the folder where you extra the package. 
+Open cmd window, cd into the folder where you extra the package. 
 
 ```
 C:\tmp\csvsplit> node index.js --help
