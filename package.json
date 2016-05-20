@@ -1,0 +1,15 @@
+{
+  "name": "csvsplit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Leo Liang",
+  "license": "MIT",
+  "dependencies": {
+    "csv": "^1.1.0",
+    "yargs": "^4.7.1"
+  }
+}
