@@ -55,7 +55,7 @@ function writeTo(destPath) {
 function groupBy(columnIndex, writeTo) {
     console.log('Group output by column ', columnIndex);
     return (record) => {
-        let fileIndex = record[columnIndex];
+        let fileIndex = record[columnIndex - 1];
         writeTo(fileIndex, record);
     }
 }
@@ -77,6 +77,6 @@ parser.on('readable', () => {
 
 
 argv._.forEach((file) => {
-  console.log('Load file: ', file);
-  fs.createReadStream(file).pipe(parser);
+    console.log('Load file: ', file);
+    fs.createReadStream(file).pipe(parser);
 });
