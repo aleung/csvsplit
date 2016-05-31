@@ -29,6 +29,8 @@ Being processed with __csvsplit__, base on value of column `group`, it becomes:
 | 2  | Bob   | B    |
 | 4  | David | B    |
 
+It's able to process multiple input files. No need to combile them beforehead. 
+
 ## Install on Windows
 
 This tool runs on node.js execution environment. If node.js hasn't been
@@ -67,3 +69,5 @@ The generated csv files are named into the value of the column base on which to 
 
 There might be an extra csv file generated, in which contains only the header.
 Just delete it.
+
+If you get "Too many open files" issue, try to use `--filter` option to limit the number of generated files.
