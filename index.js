@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const csv = require('csv');
 const yargs = require('yargs');
+const _ = require('lodash');
 
 let header;
 
@@ -20,16 +21,26 @@ const argv = yargs
         describe: 'The index of column base which to split (A=1, B=2 ...)',
         type: 'number'
     })
+    .option('f', {
+        alias: 'filter',
+        describe: 'If set, only when the column value is in this list will be outputed. Configure with a comma seperated list of values.',
+        type: 'string'
+    })
     .option('o', {
         alias: 'output',
         describe: 'Directory to put generated files into',
+        default: './',
         type: 'string'
     })
     .help('help')
     .argv;
 
+// string => ( {string, record} => void )
 function writeTo(destPath) {
-    return (fileIndex, record) => {
+    return ({fileIndex, record}) => {
+        if (!fileIndex) {
+            return;
+        }
         if (!header) {
             header = record;
         }
@@ -52,15 +63,35 @@ function writeTo(destPath) {
     }
 }
 
-function groupBy(columnIndex, writeTo) {
+// number => (record => {string, record})
+function groupBy(columnIndex) {
     console.log('Group output by column ', columnIndex);
     return (record) => {
         let fileIndex = record[columnIndex - 1];
-        writeTo(fileIndex, record);
+        return {fileIndex, record};
     }
 }
 
-const write = groupBy(argv.c, writeTo(argv.o));
+// string => ({string, record} => {string, record})
+function filterWith(allowedList) {
+    const allows = allowedList && allowedList.split(',');
+    if (allowedList) {
+        console.log('Filter column value within', allows);
+    }
+    return ({fileIndex, record}) => {
+        if (!allowedList || allows.includes(fileIndex)) {
+            return {fileIndex, record};
+        } else {
+            return {};
+        }
+    };
+}
+
+const processRecord = _.flow([
+    groupBy(argv.c),
+    filterWith(argv.f),
+    writeTo(argv.o)
+]);
 
 const parser = csv.parse();
 
@@ -71,7 +102,7 @@ parser.on('error', (err) => {
 parser.on('readable', () => {
     let record;
     while (record = parser.read()) {
-        write(record);
+        processRecord(record);
     }
 });
 

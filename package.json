@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "csv": "^1.1.0",
+    "lodash": "^4.13.1",
     "yargs": "^4.7.1"
   }
 }
