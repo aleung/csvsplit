@@ -11,7 +11,7 @@ Download `csvsplit.zip` from [latest release](https://github.com/aleung/csvsplit
 
 ## Usage
 
-Open cmd window, cd into the folder where you extra the package. 
+Open cmd window, cd into the folder where you extra the package.
 
 ```
 C:\tmp\csvsplit> node index.js --help
@@ -19,11 +19,14 @@ Usage:
         node index.js [options] <inputfiles>
 
     Example:
-        node index.js -c 2 -o ../output ../input/*.csv
+        node index.js -c 2 -f 101761,191001,121001 -o C:\tmp\output C:\tmp\input\*.csv
 
 Options:
-  -c, --column  The index of column base which to split. (A=1, B=2 ...) [number]
-  -o, --output  Directory to put generated files into                   [string]
+  -c, --column  The index of column base which to split (A=1, B=2 ...)  [number]
+  -f, --filter  If set, only when the column value is in this list will be
+                outputed. Configure with a comma seperated list of values.
+                                                                        [string]
+  -o, --output  Directory to put generated files into   [string] [default: "./"]
   --help        Show help                                              [boolean]
 ```
 
