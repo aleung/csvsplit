@@ -57,16 +57,16 @@ $ csvsplit --help
 Usage: /usr/local/bin/csvsplit [options] <inputfiles>
 
 Options:
-  -c, --column  The index of column base which to split (A=1, B=2 ...)                        [number] [required]
-  -f, --filter  If set, only when the column value is in this list will be outputed. Configure with a comma
-                seperated list of values.                                                                [string]
-  -o, --output  Directory to put generated files into                                    [string] [default: "./"]
-  --help        Show help                                                                               [boolean]
-  --version     Show version number                                                                     [boolean]
+  -c, --column  The index of column base which to split (A=1, B=2 ...)             [number] [required]
+  -f, --filter  If set, only when the column value is in this list will be outputed. Configure with a
+                comma seperated list of values.                                               [string]
+  -o, --output  Directory to put generated files into                         [string] [default: "./"]
+  --help        Show help                                                                    [boolean]
+  --version     Show version number                                                          [boolean]
 
 Examples:
-  /usr/local/bin/csvsplit -c 2 -o ./output ./input/*.csv  Process all CSV files and split base on the 2nd column
-
+  /usr/local/bin/csvsplit -c 2 -o ./output             Process all CSV files and split base on the 2nd
+  ./input/*.csv                                        column
 ```
 
 The generated csv files are named into the value of the column base on which to split.
