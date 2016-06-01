@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 "use strict";
 
 const fs = require('fs');
@@ -11,13 +13,12 @@ let header;
 const outputs = new Map();
 
 const argv = yargs
-    .usage(`Usage:
-        node index.js [options] <inputfiles>
-
-    Example:
-        node index.js -c 2 -o ../output ../input/*.csv`)
+    .usage('Usage: $0 [options] <inputfiles>')
+    .example('$0 -c 2 -o ./output ./input/*.csv',
+        'Process all CSV files and split base on the 2nd column')
     .option('c', {
         alias: 'column',
+        demand: true,
         describe: 'The index of column base which to split (A=1, B=2 ...)',
         type: 'number'
     })
@@ -33,6 +34,9 @@ const argv = yargs
         type: 'string'
     })
     .help('help')
+    .version()
+    .wrap(yargs.terminalWidth())
+    .demand(1)
     .argv;
 
 // string => ( {string, record} => void )
@@ -46,7 +50,13 @@ function writeTo(destPath) {
         }
         if (!outputs.has(fileIndex)) {
             const p = path.join(destPath, `${fileIndex}.csv`);
+            console.log('Output file:', p);
             const output = fs.createWriteStream(p);
+            output.on('error', (err) => {
+                console.error(`Unable to write to output file "${p}". Does the output direcotry exist?`);
+                console.error(err);
+                process.exit(1);
+            });
             outputs.set(fileIndex, output);
             csv.stringify([header], (err, s) => {
                 if (!err) {
@@ -68,7 +78,7 @@ function groupBy(columnIndex) {
     console.log('Group output by column ', columnIndex);
     return (record) => {
         let fileIndex = record[columnIndex - 1];
-        return {fileIndex, record};
+        return { fileIndex, record };
     }
 }
 
@@ -80,7 +90,7 @@ function filterWith(allowedList) {
     }
     return ({fileIndex, record}) => {
         if (!allowedList || allows.includes(fileIndex)) {
-            return {fileIndex, record};
+            return { fileIndex, record };
         } else {
             return {};
         }
@@ -96,7 +106,9 @@ const processRecord = _.flow([
 const parser = csv.parse();
 
 parser.on('error', (err) => {
+    console.error('Unable to parse the input file(s). Is it in valid CSV format?');
     console.error(err);
+    exit(1);
 });
 
 parser.on('readable', () => {
@@ -106,8 +118,7 @@ parser.on('readable', () => {
     }
 });
 
-
 argv._.forEach((file) => {
-    console.log('Load file: ', file);
+    console.log('Input file: ', file);
     fs.createReadStream(file).pipe(parser);
 });

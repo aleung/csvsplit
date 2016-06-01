@@ -1,13 +1,23 @@
 {
   "name": "csvsplit",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "csvsplit": "./index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Leo Liang",
   "license": "MIT",
+  "keywords": [
+    "csv"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aleung/csvsplit.git"
+  },
   "dependencies": {
     "csv": "^1.1.0",
     "lodash": "^4.13.1",
