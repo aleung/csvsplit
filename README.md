@@ -46,7 +46,7 @@ installed properly. Node.js v6.0 or higher is required.
 
 Install CSV split:
 
-    npm install @aleung/csvsplit
+    npm install -g @aleung/csvsplit
 
 It runs on any OS platform that node.js supports.
 

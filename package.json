@@ -1,7 +1,7 @@
 {
   "name": "@aleung/csvsplit",
-  "version": "2.0.0",
-  "description": "",
+  "version": "2.0.1",
+  "description": "CLI utility to split CSV into multiples files base on value of a specified column",
   "main": "index.js",
   "bin": {
     "csvsplit": "./index.js"
@@ -9,22 +9,21 @@
   "engines": {
     "node": ">=6.0.0"
   },
-  "preferGlobal": true,
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Leo Liang",
+  "author": "Leo Liang <leo.liang@gmail.com>",
   "license": "MIT",
   "keywords": [
     "csv"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/aleung/csvsplit.git"
   },
   "dependencies": {
-    "csv": "^1.1.0",
-    "lodash": "^4.13.1",
-    "yargs": "^4.7.1"
+    "csv": "^5.3.2",
+    "lodash": "^4.17.20",
+    "yargs": "^15.4.1"
   }
 }
