@@ -2,17 +2,19 @@
 
 "use strict";
 
-const fs = require('fs');
-const path = require('path');
-const csv = require('csv');
-const yargs = require('yargs');
-const _ = require('lodash');
+import { createWriteStream, createReadStream } from 'fs';
+import { join } from 'path';
+import csv from 'csv';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+import _ from 'lodash';
 
 let header;
 
 const outputs = new Map();
 
-const argv = yargs
+const argv = yargs(hideBin(process.argv))
+    .parserConfiguration({ 'boolean-negation': false })
     .usage('Usage: $0 [options] <inputfiles>')
     .example('$0 -c 2 -o ./output ./input/*.csv',
         'Process all CSV files and split base on the 2nd column')
@@ -33,25 +35,26 @@ const argv = yargs
         default: './',
         type: 'string'
     })
+    .option('no-header', {
+        describe: 'The input CSV file has no header',
+        default: false,
+        type: 'boolean'
+    })
     .help('help')
     .version()
-    .wrap(yargs.terminalWidth())
     .demand(1)
     .argv;
 
 // string => ( {string, record} => void )
 function writeTo(destPath) {
-    return ({fileIndex, record}) => {
+    return ({ fileIndex, record }) => {
         if (!fileIndex) {
             return;
         }
-        if (!header) {
-            header = record;
-        }
         if (!outputs.has(fileIndex)) {
-            const p = path.join(destPath, `${fileIndex}.csv`);
+            const p = join(destPath, `${fileIndex}.csv`);
             console.log('Output file:', p);
-            const output = fs.createWriteStream(p);
+            const output = createWriteStream(p);
             output.on('error', (err) => {
                 console.error(`Unable to write to output file "${p}". Does the output direcotry exist?`);
                 console.error(err);
@@ -88,7 +91,7 @@ function filterWith(allowedList) {
     if (allowedList) {
         console.log('Filter column value within', allows);
     }
-    return ({fileIndex, record}) => {
+    return ({ fileIndex, record }) => {
         if (!allowedList || allows.includes(fileIndex)) {
             return { fileIndex, record };
         } else {
@@ -114,11 +117,16 @@ parser.on('error', (err) => {
 parser.on('readable', () => {
     let record;
     while (record = parser.read()) {
-        processRecord(record);
+        if (!argv.noHeader && header === undefined) {
+            header = record
+        } else {
+            processRecord(record);
+        }
     }
 });
 
 argv._.forEach((file) => {
     console.log('Input file: ', file);
-    fs.createReadStream(file).pipe(parser);
+    header = undefined;
+    createReadStream(file).pipe(parser);
 });

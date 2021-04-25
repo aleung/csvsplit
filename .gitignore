@@ -34,6 +34,7 @@ build
 docs
 *.tgz
 package/
+output/
 
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
@@ -104,3 +105,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Gitpod
+.gitpod.yml

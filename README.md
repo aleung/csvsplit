@@ -42,13 +42,17 @@ installed on your OS, download from [Node.js official site](https://nodejs.org/e
 and install it.
 
 On command line, type `node --version` to make sure node.js has been
-installed properly. Node.js v6.0 or higher is required.
+installed properly. Node.js v12.0 or higher is required.
 
 Install CSV split:
 
     npm install -g @aleung/csvsplit
 
 It runs on any OS platform that node.js supports.
+
+You could run CSV split without installation by adding `npx` before the command:
+
+    npx csvsplit [options...]
 
 ## Usage
 
@@ -61,6 +65,7 @@ Options:
   -f, --filter  If set, only when the column value is in this list will be outputed. Configure with a
                 comma seperated list of values.                                               [string]
   -o, --output  Directory to put generated files into                         [string] [default: "./"]
+  --no-header  The input CSV file has no header                             [boolean] [default: false]
   --help        Show help                                                                    [boolean]
   --version     Show version number                                                          [boolean]
 
@@ -75,3 +80,10 @@ There might be an extra csv file generated, in which contains only the header.
 Just delete it.
 
 If you get "Too many open files" issue, try to use `--filter` option to limit the number of generated files.
+
+## Development
+
+```
+$ yarn install
+$ yarn test
+```
