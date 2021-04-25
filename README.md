@@ -52,13 +52,13 @@ It runs on any OS platform that node.js supports.
 
 You could run CSV split without installation by adding `npx` before the command:
 
-    npx csvsplit [options...]
+    npx @aleung/csvsplit --help
 
 ## Usage
 
 ```
 $ csvsplit --help
-Usage: /usr/local/bin/csvsplit [options] <inputfiles>
+Usage: csvsplit [options] <inputfiles>
 
 Options:
   -c, --column  The index of column base which to split (A=1, B=2 ...)             [number] [required]
@@ -67,11 +67,9 @@ Options:
   -o, --output  Directory to put generated files into                         [string] [default: "./"]
   --no-header  The input CSV file has no header                             [boolean] [default: false]
   --help        Show help                                                                    [boolean]
-  --version     Show version number                                                          [boolean]
 
 Examples:
-  /usr/local/bin/csvsplit -c 2 -o ./output             Process all CSV files and split base on the 2nd
-  ./input/*.csv                                        column
+  csvsplit -c 2 -o ./output ./input/*.csv       Process all CSV files and split base on the 2nd column
 ```
 
 The generated csv files are named into the value of the column base on which to split.
