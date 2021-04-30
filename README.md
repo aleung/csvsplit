@@ -85,3 +85,7 @@ If you get "Too many open files" issue, try to use `--filter` option to limit th
 $ yarn install
 $ yarn test
 ```
+
+## Similar Project
+
+[xsv](https://github.com/BurntSushi/xsv): A fast CSV command line toolkit written in Rust.
